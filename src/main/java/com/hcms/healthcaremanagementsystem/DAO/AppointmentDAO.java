@@ -3,6 +3,8 @@ package com.hcms.healthcaremanagementsystem.DAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.hcms.healthcaremanagementsystem.Model.Appointment;
+import com.hcms.healthcaremanagementsystem.Database.DatabaseConnection;
 
 public class AppointmentDAO {
 

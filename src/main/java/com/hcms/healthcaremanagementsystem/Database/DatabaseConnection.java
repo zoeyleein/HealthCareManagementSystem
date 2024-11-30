@@ -1,4 +1,4 @@
-package com.hcms.healthcaremanagementsystem;
+package com.hcms.healthcaremanagementsystem.Database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
