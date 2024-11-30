@@ -5,13 +5,10 @@ import java.sql.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import com.hcms.healthcaremanagementsystem.dbconnection.DatabaseConnection;
 
 @WebServlet(name = "LoginUserServlet", value = "/login")
 public class LoginUser extends HttpServlet {
-
-    private final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl"; // From dataSource.xml
-    private final String DB_USER = "C##HMS_USER"; // Placeholder for actual username
-    private final String DB_PASSWORD = "hms_password"; // Placeholder for actual password
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -20,16 +17,16 @@ public class LoginUser extends HttpServlet {
         boolean isValidUser = validateUser(username, password);
 
         response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-
-        if (isValidUser) {
-            out.println("<html><body>");
-            out.println("<h1>Login Successful!</h1>");
-            out.println("</body></html>");
-        } else {
-            out.println("<html><body>");
-            out.println("<h1>Invalid Username or Password!</h1>");
-            out.println("</body></html>");
+        try (PrintWriter out = response.getWriter()) {
+            if (isValidUser) {
+                out.println("<html><body>");
+                out.println("<h1>Login Successful!</h1>");
+                out.println("</body></html>");
+            } else {
+                out.println("<html><body>");
+                out.println("<h1>Invalid Username or Password!</h1>");
+                out.println("</body></html>");
+            }
         }
     }
 
@@ -38,10 +35,8 @@ public class LoginUser extends HttpServlet {
 
         String query = "SELECT PasswordHash FROM UserAccount WHERE Username = ?";
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-            Class.forName("oracle.jdbc.OracleDriver"); // Ensure Driver is loaded
 
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
@@ -53,7 +48,7 @@ public class LoginUser extends HttpServlet {
                     isValid = true;
                 }
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
