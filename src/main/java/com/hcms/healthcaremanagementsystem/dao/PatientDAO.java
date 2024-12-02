@@ -74,15 +74,17 @@ public class PatientDAO {
         }
     }
 
-    public void deletePatient(int patientID) {
+    public boolean deletePatient(int patientID) {
         String sql = "DELETE FROM Patient WHERE PatientID = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, patientID);
             pstmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 }
