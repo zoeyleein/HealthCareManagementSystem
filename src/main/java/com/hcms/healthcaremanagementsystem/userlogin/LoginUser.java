@@ -18,7 +18,8 @@ public class LoginUser extends HttpServlet {
 
 
             if (isValidUser) {
-                response.sendRedirect("patient_management.jsp");
+                String contextPath = request.getContextPath();
+                response.sendRedirect(contextPath + "/patient-management");
 
             } else {
                 response.setContentType("text/html");
