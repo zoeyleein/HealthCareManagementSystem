@@ -75,9 +75,7 @@ public class newPatient extends HttpServlet {
         out.println("<div class='container mt-5'>");
         out.println("<h1 class='mb-4'>New Patient</h1>");
         out.println("<div class='alert alert-success'>Patient Added Successfully</div>");
-//        out.println("<a href='patient-management' class='btn btn-success'>Go to Patient Management</a>");
         out.println("<a href='"+contextPath+"/patient-management' class='btn btn-success'>Go to Patient Management</a>");
-
         out.println("</div>");
 
     }
