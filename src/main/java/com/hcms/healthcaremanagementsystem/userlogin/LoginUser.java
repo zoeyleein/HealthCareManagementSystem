@@ -16,13 +16,13 @@ public class LoginUser extends HttpServlet {
 
         boolean isValidUser = validateUser(username, password);
 
-        response.setContentType("text/html");
-        try (PrintWriter out = response.getWriter()) {
+
             if (isValidUser) {
-                out.println("<html><body>");
-                out.println("<h1>Login Successful!</h1>");
-                out.println("</body></html>");
+                response.sendRedirect("patient_management.jsp");
+
             } else {
+                response.setContentType("text/html");
+                try (PrintWriter out = response.getWriter()) {
                 out.println("<html><body>");
                 out.println("<h1>Invalid Username or Password!</h1>");
                 out.println("</body></html>");
@@ -42,9 +42,8 @@ public class LoginUser extends HttpServlet {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                String storedPasswordHash = rs.getString("PasswordHash");
-                // Apply proper password hashing and checking here
-                if (storedPasswordHash.equals(hashPassword(password))) {
+                String storedPassword = rs.getString("PasswordHash");
+                if (storedPassword.equals(checkPassword(password))) {
                     isValid = true;
                 }
             }
@@ -55,8 +54,7 @@ public class LoginUser extends HttpServlet {
         return isValid;
     }
 
-    private String hashPassword(String password) {
-        // Implement actual password hashing here
+    private String checkPassword(String password) {
         return password; // Placeholder for hashing logic
     }
 }
