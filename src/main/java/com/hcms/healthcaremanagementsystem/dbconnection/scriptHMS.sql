@@ -82,6 +82,12 @@ CREATE TABLE PharmacyInventory (
 INSERT INTO Patient (FirstName, LastName, DateOfBirth, Gender, PhoneNumber, Email, Address, MedicalHistory)
 VALUES ('John', 'Doe', '1990-05-15', 'Male', '1234567890', 'johndoe@example.com', '123 Main St, Toronto, ON', 'No prior history.');
 
+INSERT INTO Patient (FirstName, LastName, DateOfBirth, Gender, PhoneNumber, Email, Address, MedicalHistory)
+VALUES ('Zoey', 'Lee', '1990-05-16', 'Female', '1234567890', 'zoey@example.com', '123 Main St, Toronto, ON', 'No prior history.');
+
+INSERT INTO Patient (FirstName, LastName, DateOfBirth, Gender, PhoneNumber, Email, Address, MedicalHistory)
+VALUES ('Cheng', 'Bert', '1990-05-13', 'Male', '1234567890', 'cheng@bert.com', '123 Main St, Toronto, ON', 'No prior history.');
+
 INSERT INTO Appointment (PatientID, DoctorName, AppointmentDate, StartTime, EndTime, Status)
 VALUES (1, 'Dr. Jane Smith', '2024-12-01', '2024-12-01 10:00:00', '2024-12-01 11:00:00', 'Scheduled');
 
@@ -92,7 +98,13 @@ INSERT INTO MedicalRecord (PatientID, Diagnosis, Treatment, TestResults, RecordD
 VALUES (1, 'Flu', 'Rest and hydration', 'Blood test normal', CURRENT_TIMESTAMP);
 
 INSERT INTO UserAccount (Username, PasswordHash, Role, PatientID)
-VALUES ('johndoe', 'hashed_password_example', 'Patient', 1);
+VALUES ('johndoe', 'hashed_password_example', 'Admin', 1);
+
+INSERT INTO UserAccount (Username, PasswordHash, Role, PatientID)
+VALUES ('ZoeyLeein', 'hashed_password_example', 'Patient', 2);
+
+INSERT INTO UserAccount (Username, PasswordHash, Role, PatientID)
+VALUES ('Cheng', 'hashed_password_example', 'Doctor', 3);
 
 INSERT INTO InsuranceClaim (PatientID, InsuranceProvider, ClaimAmount, ClaimDate, ClaimStatus)
 VALUES (1, 'Blue Cross', 150.75, CURRENT_TIMESTAMP, 'Approved');

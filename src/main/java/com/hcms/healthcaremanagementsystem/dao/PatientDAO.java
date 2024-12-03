@@ -105,16 +105,33 @@ public class PatientDAO {
     }
 
     public boolean deletePatient(int patientID) {
-        String sql = "DELETE FROM Patient WHERE PatientID = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        String sql1 = "DELETE FROM UserAccount WHERE PatientID = ?";
+        String sql2 = "DELETE FROM Patient WHERE PatientID = ?";
 
-            pstmt.setInt(1, patientID);
-            pstmt.executeUpdate();
-            return true;
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false); // Start transaction
+
+            try (PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+                 PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
+
+                pstmt1.setInt(1, patientID);
+                pstmt1.executeUpdate();
+
+                pstmt2.setInt(1, patientID);
+                pstmt2.executeUpdate();
+
+                conn.commit(); // Commit transaction
+                return true;
+            } catch (SQLException e) {
+                conn.rollback(); // Rollback transaction on error
+                System.err.println("Failed to delete patient data: " + e.getMessage());
+                return false;
+            } finally {
+                conn.setAutoCommit(true); // Reset to default
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Database connection error: " + e.getMessage());
         }
         return false;
+        }
     }
-}
