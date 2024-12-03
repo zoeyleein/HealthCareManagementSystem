@@ -2,7 +2,6 @@ package com.hcms.healthcaremanagementsystem.registration;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.*;
 import jakarta.servlet.http.*;
-import com.hcms.healthcaremanagementsystem.dbconnection.DatabaseConnection;
 import com.hcms.healthcaremanagementsystem.dao.PatientDAO;
 import com.hcms.healthcaremanagementsystem.dto.PatientDTO;
 
