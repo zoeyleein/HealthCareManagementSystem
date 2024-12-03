@@ -46,7 +46,7 @@ public class PatientManagement extends HttpServlet {
             out.println("<td>" + patient.getLastName() + "</td>");
             out.println("<td>" + patient.getDateOfBirth() + "</td>");
             out.println("<td>");
-            out.println("<a href='"+contextPath+"/edit?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-primary'>Edit</a> ");
+            out.println("<a href='"+contextPath+"/edit-patient?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-primary'>Edit</a> ");
             out.println("<a href='"+contextPath+"/delete-patient?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-danger'>Delete</a>");
             out.println("</td>");
             out.println("</tr>");
