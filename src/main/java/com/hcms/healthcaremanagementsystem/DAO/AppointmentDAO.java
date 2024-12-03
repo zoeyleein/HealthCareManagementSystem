@@ -1,90 +1,55 @@
 package com.hcms.healthcaremanagementsystem.DAO;
+import com.hcms.healthcaremanagementsystem.Model.Appointment;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import com.hcms.healthcaremanagementsystem.Model.Appointment;
-import com.hcms.healthcaremanagementsystem.Database.DatabaseConnection;
 
 public class AppointmentDAO {
+    private Connection connection;
 
-    /**
-     * Adds a new appointment to the database.
-     */
-    public void addAppointment(Appointment appointment) throws SQLException {
-        String sql = "INSERT INTO appointments (patient_id, doctor_name, appointment_date, appointment_time) VALUES (?, ?, ?, ?)";
+    public AppointmentDAO(Connection connection) {
+        this.connection = connection;
+    }
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+    // Create appointment
+    public boolean createAppointment(Appointment appointment) {
+        try {
+            String query = "INSERT INTO appointments (patientId, doctorName, appointmentTime, endTime, status) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, appointment.getPatientId());
             statement.setString(2, appointment.getDoctorName());
-            statement.setString(3, appointment.getAppointmentDate());
-            statement.setString(4, appointment.getAppointmentTime());
-
-            statement.executeUpdate();
-            System.out.println("Appointment added successfully.");
+            statement.setString(3, appointment.getAppointmentTime());
+            statement.setString(4, appointment.getEndTime());
+            statement.setString(5, appointment.getStatus());
+            int result = statement.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
-    /**
-     * Updates an existing appointment in the database.
-     */
-    public void updateAppointment(Appointment appointment) throws SQLException {
-        String sql = "UPDATE appointments SET patient_id = ?, doctor_name = ?, appointment_date = ?, appointment_time = ? WHERE id = ?";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setInt(1, appointment.getPatientId());
-            statement.setString(2, appointment.getDoctorName());
-            statement.setString(3, appointment.getAppointmentDate());
-            statement.setString(4, appointment.getAppointmentTime());
-            statement.setInt(5, appointment.getId());
-
-            statement.executeUpdate();
-            System.out.println("Appointment updated successfully.");
-        }
-    }
-
-    /**
-     * Retrieves all appointments from the database.
-     */
-    public List<Appointment> getAllAppointments() throws SQLException {
+    // Get all appointments
+    public List<Appointment> getAllAppointments() {
         List<Appointment> appointments = new ArrayList<>();
-        String sql = "SELECT * FROM appointments";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-
+        try {
+            String query = "SELECT * FROM appointments";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Appointment appointment = new Appointment();
-                appointment.setId(resultSet.getInt("id"));
-                appointment.setPatientId(resultSet.getInt("patient_id"));
-                appointment.setDoctorName(resultSet.getString("doctor_name"));
-                appointment.setAppointmentDate(resultSet.getString("appointment_date"));
-                appointment.setAppointmentTime(resultSet.getString("appointment_time"));
-
+                appointment.setAppointmentId(resultSet.getInt("appointmentId"));
+                appointment.setPatientId(resultSet.getInt("patientId"));
+                appointment.setDoctorName(resultSet.getString("doctorName"));
+                appointment.setAppointmentTime(resultSet.getString("appointmentTime"));
+                appointment.setEndTime(resultSet.getString("endTime"));
+                appointment.setStatus(resultSet.getString("status"));
                 appointments.add(appointment);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return appointments;
     }
-
-    /**
-     * Deletes an appointment from the database.
-     */
-    public void deleteAppointment(int appointmentId) throws SQLException {
-        String sql = "DELETE FROM appointments WHERE id = ?";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setInt(1, appointmentId);
-            statement.executeUpdate();
-            System.out.println("Appointment deleted successfully.");
-        }
-    }
 }
-

@@ -1,19 +1,20 @@
 package com.hcms.healthcaremanagementsystem.Model;
 
 public class Appointment {
-    private int id;
+    private int appointmentId;
     private int patientId;
     private String doctorName;
-    private String appointmentDate;
     private String appointmentTime;
+    private String endTime;
+    private String status;
 
     // Getters and Setters
-    public int getId() {
-        return id;
+    public int getAppointmentId() {
+        return appointmentId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAppointmentId(int appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
     public int getPatientId() {
@@ -32,14 +33,6 @@ public class Appointment {
         this.doctorName = doctorName;
     }
 
-    public String getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(String appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
-
     public String getAppointmentTime() {
         return appointmentTime;
     }
@@ -47,5 +40,22 @@ public class Appointment {
     public void setAppointmentTime(String appointmentTime) {
         this.appointmentTime = appointmentTime;
     }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
+
 
