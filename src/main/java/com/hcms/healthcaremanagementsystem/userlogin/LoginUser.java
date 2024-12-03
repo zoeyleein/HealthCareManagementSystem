@@ -16,10 +16,22 @@ public class LoginUser extends HttpServlet {
 
         boolean isValidUser = validateUser(username, password);
 
-
             if (isValidUser) {
-                String contextPath = request.getContextPath();
-                response.sendRedirect(contextPath + "/patient-management");
+                String loginRole = checkUserRoles(username);
+                switch (loginRole) {
+                    case "Admin" -> {
+                        String contextPath = request.getContextPath();
+                        response.sendRedirect(contextPath + "/patient-management");
+                    }
+                    case "Doctor" -> {
+                        String contextPath = request.getContextPath();
+                        response.sendRedirect(contextPath + "/doctor-portal");
+                    }
+                    case "Patient" -> {
+                        String contextPath = request.getContextPath();
+                        response.sendRedirect(contextPath + "/patient-portal");
+                    }
+                }
 
             } else {
                 response.setContentType("text/html");
@@ -58,4 +70,30 @@ public class LoginUser extends HttpServlet {
     private String checkPassword(String password) {
         return password; // Placeholder for hashing logic
     }
+
+    private String checkUserRoles(String username) {
+        String loginRole = null;
+        String query = "SELECT Role FROM UserAccount WHERE Username = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String role = rs.getString("Role");
+                switch (role) {
+                    case "Admin" -> loginRole = "Admin";
+                    case "Doctor" -> loginRole = "Doctor";
+                    case "Patient" -> loginRole = "Patient";
+                    default -> {
+                        // Handle unknown role
+                        return "Unknown Role: " + role;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return loginRole;
+    }
+
 }
