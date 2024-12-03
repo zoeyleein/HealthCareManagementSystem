@@ -21,6 +21,7 @@ public class PatientManagement extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String contextPath = request.getContextPath();
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
@@ -35,7 +36,7 @@ public class PatientManagement extends HttpServlet {
         out.println("<h1 class='mb-4'>" + message + "</h1>");
 
         out.println("<table class='table table-hover'>");
-        out.println("<thead class='thead-dark'><tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Actions</th></tr></thead>");
+        out.println("<thead class='thead-dark'><tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Birth Date</th><th>Actions</th></tr></thead>");
         out.println("<tbody>");
 
         for (PatientDTO patient : patients) {
@@ -43,16 +44,17 @@ public class PatientManagement extends HttpServlet {
             out.println("<td>" + patient.getPatientID() + "</td>");
             out.println("<td>" + patient.getFirstName() + "</td>");
             out.println("<td>" + patient.getLastName() + "</td>");
+            out.println("<td>" + patient.getDateOfBirth() + "</td>");
             out.println("<td>");
-            out.println("<a href='edit?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-primary'>Edit</a> ");
-            out.println("<a href='delete?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-danger'>Delete</a>");
+            out.println("<a href='"+contextPath+"/edit-patient?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-primary'>Edit</a> ");
+            out.println("<a href='"+contextPath+"/delete-patient?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-danger'>Delete</a>");
             out.println("</td>");
             out.println("</tr>");
         }
 
         out.println("</tbody>");
         out.println("</table>");
-        out.println("<a href='new' class='btn btn-success'>Add New Patient</a>");
+        out.println("<a href='"+ contextPath+ "/new-patient"+"'class='btn btn-success'>Add New Patient</a>");
         out.println("</div>");
 
         out.println("<script src='https://code.jquery.com/jquery-3.5.1.slim.min.js'></script>");
@@ -60,6 +62,10 @@ public class PatientManagement extends HttpServlet {
         out.println("<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>");
 
         out.println("</body></html>");
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 
     public void destroy() {
