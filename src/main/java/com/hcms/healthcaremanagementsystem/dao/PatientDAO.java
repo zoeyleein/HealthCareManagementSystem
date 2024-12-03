@@ -80,7 +80,7 @@ public class PatientDAO {
         }
     }
 
-    public void updatePatient(PatientDTO patient) {
+    public boolean updatePatient(PatientDTO patient) {
         String sql = "UPDATE Patient SET FirstName = ?, LastName = ?, DateOfBirth = ?, Gender = ?, PhoneNumber = ?, Email = ?, Address = ?, MedicalHistory = ? WHERE PatientID = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -96,9 +96,12 @@ public class PatientDAO {
             pstmt.setInt(9, patient.getPatientID());
 
             pstmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+
     }
 
     public boolean deletePatient(int patientID) {
