@@ -47,6 +47,52 @@ public class editPatient extends HttpServlet{
         out.println("</form>");
         out.println("</div>");
         out.println("</body></html>");
+    }
 
+    protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String dateOfBirth = request.getParameter("dateOfBirth");
+        String gender = request.getParameter("gender");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        String medicalHistory = request.getParameter("medicalHistory");
+        int patientID = Integer.parseInt(request.getParameter("patientID"));
+
+        PatientDAO patientDAO = new PatientDAO();
+        PatientDTO patientDTO = new PatientDTO();
+        patientDTO.setFirstName(firstName);
+        patientDTO.setLastName(lastName);
+        patientDTO.setDateOfBirth(dateOfBirth);
+        patientDTO.setGender(gender);
+        patientDTO.setPhoneNumber(phoneNumber);
+        patientDTO.setEmail(email);
+        patientDTO.setAddress(address);
+        patientDTO.setMedicalHistory(medicalHistory);
+        patientDTO.setPatientID(patientID);
+
+        boolean updatedSuccess =  patientDAO.updatePatient(patientDTO);
+        if (updatedSuccess) {
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.println("<html><head>");
+            out.println("<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'>");
+            out.println("</head><body>");
+            out.println("<div class='container mt-5'>");
+            out.println("<h1 class='mb-4'>Edit Patient</h1>");
+            out.println("<div class='alert alert-success'>Patient Updated Successfully</div>");
+            out.println("<a href='"+request.getContextPath()+"/patient-management' class='btn btn-success'>Go to Patient Management</a>");
+        } else {
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            out.println("<html><head>");
+            out.println("<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'>");
+            out.println("</head><body>");
+            out.println("<div class='container mt-5'>");
+            out.println("<h1 class='mb-4'>Edit Patient</h1>");
+            out.println("<div class='alert alert-danger'>Patient Not Updated</div>");
+            out.println("<a href='"+request.getContextPath()+"/patient-management' class='btn btn-success'>Go to Patient Management</a>");
+        }
     }
 }
