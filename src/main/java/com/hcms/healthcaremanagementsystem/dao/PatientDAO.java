@@ -3,6 +3,7 @@ package com.hcms.healthcaremanagementsystem.dao;
 import com.hcms.healthcaremanagementsystem.dto.PatientDTO;
 import com.hcms.healthcaremanagementsystem.dbconnection.DatabaseConnection;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,32 @@ public class PatientDAO {
             e.printStackTrace();
         }
         return patients;
+    }
+
+    public PatientDTO getPatient(int patientID) {
+        String sql = "SELECT * FROM Patient WHERE PatientID = ?";
+        PatientDTO patient = new PatientDTO();
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+                pstmt.setInt(1, patientID);
+                ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                    patient.setPatientID(rs.getInt("PatientID"));
+                    patient.setFirstName(rs.getString("FirstName"));
+                    patient.setLastName(rs.getString("LastName"));
+                    patient.setDateOfBirth(rs.getString("DateOfBirth"));
+                    patient.setGender(rs.getString("Gender"));
+                    patient.setPhoneNumber(rs.getString("PhoneNumber"));
+                    patient.setEmail(rs.getString("Email"));
+                    patient.setAddress(rs.getString("Address"));
+                    patient.setMedicalHistory(rs.getString("MedicalHistory"));
+                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return patient;
+
     }
 
     public void createPatient(PatientDTO patient) {
