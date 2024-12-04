@@ -58,7 +58,6 @@ public class MedicalRecordServlet extends HttpServlet {
         String treatment = req.getParameter("treatment");
         String testResults = req.getParameter("testResults");
 
-        // Create MedicalRecord and use setter methods
         MedicalRecord record = new MedicalRecord(0, patientID, diagnosis, treatment, testResults); // ID will be set by DB
         record.setPatientID(patientID);
         record.setDiagnosis(diagnosis);
@@ -75,7 +74,6 @@ public class MedicalRecordServlet extends HttpServlet {
         String treatment = req.getParameter("treatment");
         String testResults = req.getParameter("testResults");
 
-        // Create MedicalRecord and use setter methods
         MedicalRecord record = new MedicalRecord(recordID, patientID, diagnosis, treatment, testResults);
         record.setRecordID(recordID);
         record.setPatientID(patientID);
