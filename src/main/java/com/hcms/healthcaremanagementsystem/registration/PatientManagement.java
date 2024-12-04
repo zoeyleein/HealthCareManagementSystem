@@ -12,10 +12,10 @@ import jakarta.servlet.http.*;
 import com.hcms.healthcaremanagementsystem.dbconnection.DatabaseConnection;
 
 @WebServlet(name="PatientManagement", value="/patient-management")
-
 public class PatientManagement extends HttpServlet {
 
     private String message;
+
     public void init() {
         message = "Welcome to Patient Management System";
     }
@@ -46,15 +46,22 @@ public class PatientManagement extends HttpServlet {
             out.println("<td>" + patient.getLastName() + "</td>");
             out.println("<td>" + patient.getDateOfBirth() + "</td>");
             out.println("<td>");
-            out.println("<a href='"+contextPath+"/edit-patient?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-primary'>Edit</a> ");
-            out.println("<a href='"+contextPath+"/delete-patient?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-danger'>Delete</a>");
+            out.println("<a href='" + contextPath + "/edit-patient?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-primary'>Edit</a> ");
+            out.println("<a href='" + contextPath + "/delete-patient?patientID=" + patient.getPatientID() + "' class='btn btn-sm btn-danger'>Delete</a>");
             out.println("</td>");
             out.println("</tr>");
         }
 
         out.println("</tbody>");
         out.println("</table>");
-        out.println("<a href='"+ contextPath+ "/new-patient"+"'class='btn btn-success'>Add New Patient</a>");
+        out.println("<a href='" + contextPath + "/new-patient' class='btn btn-success'>Add New Patient</a>");
+        out.println("</div>");
+
+        out.println("<div class='container mt-5'>");
+        out.println("<footer>");
+        out.println("<a href='" + contextPath + "/InvoiceMain.jsp' class='btn btn-link'>Invoice Management</a>");
+        out.println("<a href='" + contextPath + "/InsuranceMain.jsp' class='btn btn-link'>Insurance Management</a>");
+        out.println("</footer>");
         out.println("</div>");
 
         out.println("<script src='https://code.jquery.com/jquery-3.5.1.slim.min.js'></script>");
@@ -65,9 +72,9 @@ public class PatientManagement extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 
     public void destroy() {
     }
 }
+

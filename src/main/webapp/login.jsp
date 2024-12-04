@@ -26,7 +26,6 @@
             </div>
         </form>
         <br/>
-        <a href="hello-servlet" class="d-block text-center">Hello Servlet</a>
     </div>
 </div>
 </body>
